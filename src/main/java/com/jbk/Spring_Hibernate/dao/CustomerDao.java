@@ -16,7 +16,7 @@ public class CustomerDao {
 	@Autowired
 	SessionFactory factory;
 
-	// insert data
+	// Insert data
 	public String insertData(Customer c) {
 		Session ss = factory.openSession();
 		Transaction tr = ss.beginTransaction();
@@ -28,29 +28,25 @@ public class CustomerDao {
 		return "Data Inserted";
 	}
 
-	// update data
-//	public String updateData(Customer c) {
-//		Session ss = factory.openSession();
-//		Transaction tr = ss.beginTransaction();
-//
-//		String hqlQuery = "update Customer set cname = :name, ccity = :city, pname = :product where cid = :id";
-//
-//		Query<Customer> query = ss.createQuery(hqlQuery);
-//
-//		query.setParameter("name", c.getCname());
-//		query.setParameter("city", c.getCcity());
-//		query.setParameter("product", c.getPname());
-//		query.setParameter("id", c.getCid());
-//
-//		query.executeUpdate();
-//
-//		tr.commit();
-//		ss.close();
-//
-//		return "Data Updated";
-//	}
+	// Update Data
 
-	// delete data
+	public String updateData(Customer c, int cid) {
+		Session ss = factory.openSession();
+		Transaction tr = ss.beginTransaction();
+
+		Customer cust = ss.get(Customer.class, cid);
+
+		cust.setCname(cust.getCname());
+		cust.setCcity(cust.getCcity());
+		cust.setPname(cust.getPname());
+
+		tr.commit();
+		ss.close();
+
+		return "Data Updated";
+	}
+
+	// Delete data
 	public String deleteData(int cid) {
 		Session ss = factory.openSession();
 		Transaction tr = ss.beginTransaction();
@@ -63,6 +59,19 @@ public class CustomerDao {
 		ss.close();
 
 		return "Record Deleted";
+	}
+
+	// Display All Data
+	public List<Customer> displayallData() {
+		Session ss = factory.openSession();
+		Transaction t = ss.beginTransaction();
+
+		String hqlQuery = "from Customer";
+		Query<Customer> query = ss.createQuery(hqlQuery, Customer.class);
+		List<Customer> list = query.list();
+
+		return list;
+
 	}
 
 	// Fetch Single Record data

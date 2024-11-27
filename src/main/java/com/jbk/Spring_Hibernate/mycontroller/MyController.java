@@ -1,5 +1,7 @@
 package com.jbk.Spring_Hibernate.mycontroller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,11 +27,11 @@ public class MyController {
 		return msg;
 	}
 
-//	@PutMapping("/updatedata")
-//	public String updateData(@RequestBody Customer c) {
-//		String msg = service.updateData(c);
-//		return msg;
-//	}
+	@PutMapping("/updatedata/{cid}")
+	public String updateData(@RequestBody Customer c,@PathVariable int cid) {
+		String msg = service.updateData(c, cid);
+		return msg;
+	}
 
 	@DeleteMapping("/deletedata/{cid}")
 	public String deleteData(@PathVariable int cid) {
@@ -37,6 +39,12 @@ public class MyController {
 		return msg;
 	}
 
+	@GetMapping("/displayalldata")
+	public List<Customer> displayallData() {
+		List<Customer> list = service.displayallData();
+		return list;
+	}
+	
 	@GetMapping("/fetchsingledata/{cid}")
 	public Customer fetchsingleData(@PathVariable int cid) {
 		Customer c = service.fetchsingleData(cid);
