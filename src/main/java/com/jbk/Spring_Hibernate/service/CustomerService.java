@@ -37,8 +37,10 @@ public class CustomerService {
 	public String deleteData(int cid) {
 		String msg = customerdao.deleteData(cid);
 
+		if (Objects.isNull(msg)) {
+			msg = "Data deletion failed. The record could not be removed. Please try again later.";
+		}
 		
-
 		return msg;
 	}
 
