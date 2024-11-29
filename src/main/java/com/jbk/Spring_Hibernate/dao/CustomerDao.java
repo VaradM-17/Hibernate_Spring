@@ -113,5 +113,18 @@ public class CustomerDao {
 		return msg;
 	}
 
+	// Display All Data
+	public List<Customer> displayallData() {
+		Session ss = factory.openSession();
+		Transaction tx = ss.beginTransaction();
+
+		String hqlQuery = "from Customer";
+		Query<Customer> query = ss.createQuery(hqlQuery, Customer.class);
+		List<Customer> list = query.list();
+
+		return list;
+
+	}
+
 	
 }
