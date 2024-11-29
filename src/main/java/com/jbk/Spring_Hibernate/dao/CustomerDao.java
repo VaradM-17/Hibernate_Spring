@@ -115,16 +115,64 @@ public class CustomerDao {
 
 	// Display All Data
 	public List<Customer> displayallData() {
-		Session ss = factory.openSession();
-		Transaction tx = ss.beginTransaction();
 
-		String hqlQuery = "from Customer";
-		Query<Customer> query = ss.createQuery(hqlQuery, Customer.class);
-		List<Customer> list = query.list();
+		Session ss = null;
+		Transaction tx = null;
+		List<Customer> list = null;
 
+		try {
+			ss = factory.openSession();
+			tx = ss.beginTransaction();
+
+			String hqlQuery = "from Customer";
+			Query<Customer> query = ss.createQuery(hqlQuery, Customer.class);
+			list = query.list();
+
+			tx.commit();
+
+			return list;
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+		} finally {
+			if (ss != null) {
+				ss.close();
+			}
+		}
 		return list;
-
 	}
 
-	
+	// Fetch Single Record data
+	public Customer fetchsingleData(int cid) {
+
+		Session ss = null;
+		Transaction tx = null;
+		Customer c = null;
+
+		try {
+			ss = factory.openSession();
+			tx = ss.beginTransaction();
+
+			String hqlQuery = "from Customer where cid = :myid";
+			Query<Customer> query = ss.createQuery(hqlQuery, Customer.class);
+			query.setParameter("myid", cid);
+
+			c = query.getSingleResult();
+
+			tx.commit();
+
+			return c;
+
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+		} finally {
+			if (ss != null) {
+				ss.close();
+			}
+		}
+		return c;
+	}
 }
