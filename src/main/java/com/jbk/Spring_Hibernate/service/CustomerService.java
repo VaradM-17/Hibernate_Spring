@@ -27,8 +27,10 @@ public class CustomerService {
 	public String updateData(Customer c, int cid) {
 		String msg = customerdao.updateData(c, cid);
 
+		if (Objects.isNull(msg)) {
+			msg = "Data update failed. Unable to apply changes. Please check the input or try again later.";
+		}
 		
-
 		return msg;
 	}
 
