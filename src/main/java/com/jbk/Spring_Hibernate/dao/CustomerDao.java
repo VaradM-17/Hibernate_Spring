@@ -81,4 +81,37 @@ public class CustomerDao {
 		return msg;
 	}
 
+	// Delete data
+	public String deleteData(int cid) {
+
+		Session ss = null;
+		Transaction tx = null;
+		String msg = null;
+
+		try {
+			ss = factory.openSession();
+			tx = ss.beginTransaction();
+
+			Customer c = ss.get(Customer.class, cid);
+
+			ss.remove(c);
+			tx.commit();
+
+			msg = "Data Deleted...";
+
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+
+		} finally {
+			if (ss != null) {
+				ss.close();
+			}
+		}
+
+		return msg;
+	}
+
+	
 }
