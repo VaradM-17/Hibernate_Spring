@@ -18,76 +18,34 @@ public class CustomerDao {
 
 	// Insert data
 	public String insertData(Customer c) {
-		Session ss = factory.openSession();
-		Transaction tr = ss.beginTransaction();
 
-		ss.persist(c);
-		tr.commit();
-		ss.close();
+		Session ss = null;
+		Transaction tx = null;
+		String msg = null;
 
-		return "Data Inserted";
-	}
+		try {
+			ss = factory.openSession();
+			tx = ss.beginTransaction();
 
-	// Update Data
+			ss.persist(c);
+			tx.commit();
 
-	public String updateData(Customer c, int cid) {
-		Session ss = factory.openSession();
-		Transaction tr = ss.beginTransaction();
+			msg = "Data Inserted";
+		}
 
-		Customer cust = ss.get(Customer.class, cid);
-
-		cust.setCname(cust.getCname());
-		cust.setCcity(cust.getCcity());
-		cust.setPname(cust.getPname());
-
-		tr.commit();
-		ss.close();
-
-		return "Data Updated";
-	}
-
-	// Delete data
-	public String deleteData(int cid) {
-		Session ss = factory.openSession();
-		Transaction tr = ss.beginTransaction();
-
-		Customer c = ss.get(Customer.class, cid);
-
-		ss.remove(c);
-
-		tr.commit();
-		ss.close();
-
-		return "Record Deleted";
-	}
-
-	// Display All Data
-	public List<Customer> displayallData() {
-		Session ss = factory.openSession();
-		Transaction t = ss.beginTransaction();
-
-		String hqlQuery = "from Customer";
-		Query<Customer> query = ss.createQuery(hqlQuery, Customer.class);
-		List<Customer> list = query.list();
-
-		return list;
+		catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			if (ss != null) {
+				ss.close();
+			}
+		}
+		return msg;
 
 	}
 
-	// Fetch Single Record data
-	public Customer fetchsingleData(int cid) {
-		Session ss = factory.openSession();
-		Transaction t = ss.beginTransaction();
-
-		String hqlQuery = "from Customer where cid = :myid";
-		Query<Customer> query = ss.createQuery(hqlQuery, Customer.class);
-		query.setParameter("myid", cid);
-
-		Customer c = query.getSingleResult();
-
-		t.commit();
-		ss.close();
-
-		return c;
-	}
+	
 }

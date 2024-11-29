@@ -1,11 +1,6 @@
 package com.jbk.Spring_Hibernate.service;
 
 import java.util.List;
-import java.util.Scanner;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +11,6 @@ import com.jbk.Spring_Hibernate.entity.Customer;
 public class CustomerService {
 	@Autowired
 	CustomerDao customerdao;
-
-	Scanner sc = new Scanner(System.in);
 
 	public String insertData(Customer c) {
 		String msg = customerdao.insertData(c);
