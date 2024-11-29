@@ -47,5 +47,38 @@ public class CustomerDao {
 
 	}
 
-	
+	// Update Data
+	public String updateData(Customer c, int cid) {
+
+		Session ss = null;
+		Transaction tx = null;
+		String msg = null;
+
+		try {
+			ss = factory.openSession();
+			tx = ss.beginTransaction();
+
+			Customer cust = ss.get(Customer.class, cid);
+
+			cust.setCname(cust.getCname());
+			cust.setCcity(cust.getCcity());
+			cust.setPname(cust.getPname());
+
+			ss.merge(cust);
+			tx.commit();
+			msg = "Data Updated...";
+
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			if (ss != null) {
+				ss.close();
+			}
+		}
+		return msg;
+	}
+
 }
