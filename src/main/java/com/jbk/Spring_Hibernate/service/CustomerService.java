@@ -1,6 +1,8 @@
 package com.jbk.Spring_Hibernate.service;
 
 import java.util.List;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +16,27 @@ public class CustomerService {
 
 	public String insertData(Customer c) {
 		String msg = customerdao.insertData(c);
+
+		if (Objects.isNull(msg)) {
+			msg = "Data insertion failed. Please verify the input and try again later.";
+		}
+
 		return msg;
 	}
 
 	public String updateData(Customer c, int cid) {
 		String msg = customerdao.updateData(c, cid);
+
+		
+
 		return msg;
 	}
 
 	public String deleteData(int cid) {
 		String msg = customerdao.deleteData(cid);
+
+		
+
 		return msg;
 	}
 

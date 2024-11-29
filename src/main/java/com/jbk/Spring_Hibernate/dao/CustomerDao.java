@@ -30,7 +30,7 @@ public class CustomerDao {
 			ss.persist(c);
 			tx.commit();
 
-			msg = "Data Inserted";
+			msg = "Data Successfully Inserted...";
 		}
 
 		catch (Exception e) {
@@ -66,7 +66,7 @@ public class CustomerDao {
 
 			ss.merge(cust);
 			tx.commit();
-			msg = "Data Updated...";
+			msg = "Data Successfully Updated...";
 
 		} catch (Exception e) {
 			if (tx != null) {
@@ -97,7 +97,7 @@ public class CustomerDao {
 			ss.remove(c);
 			tx.commit();
 
-			msg = "Data Deleted...";
+			msg = "Data Successfully Deleted...";
 
 		} catch (Exception e) {
 			if (tx != null) {
